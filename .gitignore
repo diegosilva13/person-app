@@ -1,40 +1,24 @@
-/dist
-/tmp
-/out-tsc
 target/
 
-# dependencies
-node_modules/
-
-# IDEs and editors
-/.idea
-.project
+### STS ###
+.apt_generated
 .classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+.factorypath
+.project
+.settings
+.springBeans
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
 
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-testem.log
-/typings
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
 
-# e2e
-/e2e/*.js
-/e2e/*.map
-
-# System Files
-.DS_Store
-Thumbs.db

@@ -1,12 +1,12 @@
-package br.com.pessoa.pessoaservice;
+package br.com.person.personservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PessoaServiceApplication {
+public class PersonServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PessoaServiceApplication.class, args);
+		SpringApplication.run(PersonServiceApplication.class, args);
 	}
 }
