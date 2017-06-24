@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>br.com.person</groupId>
-	<artifactId>person-service</artifactId>
+	<groupId>br.com.pessoa</groupId>
+	<artifactId>pessoa-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>person-service</name>
-	<description>Person Service Resources</description>
+	<name>pessoa-service</name>
+	<description>Seviços para gerenciamento de pessoas</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
