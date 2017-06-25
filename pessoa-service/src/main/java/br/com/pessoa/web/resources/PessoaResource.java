@@ -15,4 +15,6 @@ public class PessoaResource {
 	
 	@Autowired 
 	PessoaService service;
+	
+	
 }

@@ -1,3 +1,43 @@
 server:
     contextPath: /api
     port: 8080
+
+arquivos:
+    pastaUpload: C:\\uploads\
+
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        password: 1234
+        platform: postgres
+        url: jdbc:postgresql://localhost:5432/dev
+        username: postgres
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        generate-ddl: false
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+    profiles: 
+        active: dev
+            
+---
+
+####### Profile de teste ##############
+    
+spring:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        password: 1234
+        platform: postgres
+        url: jdbc:postgresql://localhost:5432/test
+        username: postgres
+        data: classpath:/sql/dados_test.sql
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        generate-ddl: false
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+    profiles: unit_test
+    
