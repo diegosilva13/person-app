@@ -34,9 +34,11 @@ public class PessoaService extends BaseService{
 		
 		salvarFotoPerfil(pessoaDTO);
 		
-		return new PessoaDTO(repository.save(pessoa));
+		return (PessoaDTO) repository.findByCpf(pessoa.getCpf()).map(pess -> {
+			throw new DadoInvalidoException("Esse CPF já se encontra cadastrado no sistema.");
+		}).orElseGet(() -> repository.save(pessoa));
 	}
-
+	
 	public PessoaDTO atualizar(Integer id, PessoaDTO pessoaDTO){
 		Pessoa pessoa = repository.findOne(id);
 		pessoa.setCpf(pessoaDTO.getCpf());

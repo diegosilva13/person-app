@@ -100,6 +100,20 @@ public class PessoaServiceTest extends PessoaServiceApplicationTests{
 	}
 	
 	@Test
+	public void tentarCriarPessoaComCpfDuplicadoTest(){
+		PessoaDTO pessoaDTO = new PessoaDTO();
+		pessoaDTO.setNome("Testador da Silva");
+		pessoaDTO.setCpf("04653183120");
+		pessoaDTO.setEmail("etste@email.com");
+		pessoaDTO.setDataNascimento(new Date());
+		try {
+			service.criar(pessoaDTO);
+		} catch (DadoInvalidoException e) {
+			Assert.assertEquals(true, e.getMessage().equalsIgnoreCase("Esse CPF já se encontra cadastrado no sistema."));
+		}
+	}
+	
+	@Test
 	public void tentarCriarPessoaComFormatoDeImagemDePerfilInvalidaTest(){
 		PessoaDTO pessoaDTO = new PessoaDTO();
 		pessoaDTO.setNome("Testador da Silva");
