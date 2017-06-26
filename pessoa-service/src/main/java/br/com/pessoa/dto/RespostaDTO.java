@@ -55,4 +55,8 @@ public class RespostaDTO implements Serializable{
 	public Object getObjetoResposta() {
 		return objetoResposta;
 	}
+
+	public HttpStatus getStatus() {
+		return HttpStatus.valueOf(getCodigoResposta());
+	}
 }

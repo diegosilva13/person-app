@@ -1,0 +1,67 @@
+<navbar></navbar>
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Pessoas</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+  </div>
+  <!-- /.row -->
+  <div class="row">
+    <alert></alert>
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Cadastrar Nova Pessoa
+            </div>
+            <div class="panel-body">
+              <form  name="form" #formSalvar="ngForm" (ngSubmit)="formSalvar.form.valid && salvar(formSalvar)" onsubmit="limparImagem();" novalidate enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-7">
+                      <div class="form-group">
+                          <label for="images">Selecione uma foto (Formatos: jpg, png, gif, jpeg)</label>
+                          <input (change)="mudarImagem($event)" type="file" name="arquivoFoto" class="form-control" id="images" onchange="previewImages();" single/>
+                          <div class="row" id="image_preview"></div>
+                      </div>
+                    </div>
+                </div>
+                   <div class="row">
+                       <div class="col-md-9">
+                         <div class="form-group" [ngClass]="{ 'has-error': formSalvar.submitted && !nome.valid }">
+                          <label for="nome">Nome</label>
+                          <input required [(ngModel)]="model.nome" #nome="ngModel" name="nome" type="text" class="form-control" id="nome" placeholder="digite seu nome">
+                          <div *ngIf="formSalvar.submitted && !nome.valid" class="help-block with-errors">Nome - Preenchimento Obrigatório.</div>
+                        </div>
+                       </div>
+                       <div class="col-md-3">
+                         <div class="form-group" [ngClass]="{ 'has-error': formSalvar.submitted && !cpf.valid }">
+                          <label for="cpf">CPF</label>
+                          <input required [(ngModel)]="model.cpf" #cpf="ngModel" name="cpf" onchange="addMask();" onclick="addMask();" type="text" class="form-control" id="cpf" placeholder="000.000.000-00">
+                          <div *ngIf="formSalvar.submitted && !cpf.valid" class="help-block with-errors">CPF - Preenchimento Obrigatório.</div>
+                        </div>
+                       </div>
+                   </div>
+                   <div class="row">
+                       <div class="col-md-5">
+                         <div class="form-group" [ngClass]="{ 'has-error': formSalvar.submitted && !email.valid }">
+                          <label for="email">E-mail</label>
+                          <input  required [(ngModel)]="model.email" #email="ngModel" name="email" type="email" class="form-control" id="email" placeholder="digite seu e-mail">
+                          <div *ngIf="formSalvar.submitted && !email.valid" class="help-block with-errors">E-mail - Preenchimento Obrigatório.</div>
+                        </div>
+                       </div>
+                       <div class="col-md-4">
+                         <div class="form-group" [ngClass]="{ 'has-error': formSalvar.submitted && !dataNascimento.valid }">
+                          <label for="dataNascimento">Data de nascimento</label>
+                          <input  required [(ngModel)]="model.dataNascimento" #dataNascimento="ngModel" name="dataNascimento" class="form-control" type="date" id="dataNascimento">
+                          <div *ngIf="formSalvar.submitted && !dataNascimento.valid" class="help-block with-errors">Data de Nascimento - Preenchimento Obrigatório.</div>
+                        </div>
+                       </div>
+                   </div>
+                   <button [disabled]="loading"  type="submit" class="btn btn-primary">Salvar</button>
+                   <button [disabled]="loading" (ngClick)="redirecionar(pessoas)" type="reset" class="btn btn-secondary">Voltar</button>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

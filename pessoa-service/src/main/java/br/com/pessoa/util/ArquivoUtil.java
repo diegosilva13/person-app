@@ -34,9 +34,11 @@ public class ArquivoUtil implements Serializable{
 	public String save(String nome, byte[] bytes){
 		try {
 			String estruturaDePastas = criarCriarEstruturaPastas();
-			Path path = Paths.get(estruturaDePastas+nome);
+			String nomeArquivo = System.currentTimeMillis()+nome;
+			Path path = Paths.get(estruturaDePastas+nomeArquivo);
 			path.toFile().createNewFile();
 			Files.write(path, bytes);
+			System.out.println(path.toAbsolutePath().toString());
 			return path.toAbsolutePath().toString();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -55,6 +57,9 @@ public class ArquivoUtil implements Serializable{
 	}
 
 	public void apagar(String arquivoAntigo) {
+		if(arquivoAntigo == null){
+			return;
+		}
 		File arquivo = new File(arquivoAntigo);
 		if(arquivo.exists()){
 			arquivo.delete();

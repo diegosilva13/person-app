@@ -32,11 +32,17 @@ public class PessoaService extends BaseService{
 		
 		super.validarDados(pessoa);
 		
-		salvarFotoPerfil(pessoaDTO);
-		
-		return (PessoaDTO) repository.findByCpf(pessoa.getCpf()).map(pess -> {
+		if(repository.findByCpf(pessoa.getCpf()).isPresent()){
 			throw new DadoInvalidoException("Esse CPF já se encontra cadastrado no sistema.");
-		}).orElseGet(() -> repository.save(pessoa));
+		}
+		
+		salvarFotoPerfil(pessoaDTO);
+		pessoa.setFoto(pessoaDTO.getFoto());
+		
+		pessoaDTO = new PessoaDTO(repository.save(pessoa));
+		
+		
+		return pessoaDTO;
 	}
 	
 	public PessoaDTO atualizar(Integer id, PessoaDTO pessoaDTO){
@@ -50,8 +56,11 @@ public class PessoaService extends BaseService{
 		super.validarDados(pessoa);
 		
 		salvarFotoPerfil(pessoaDTO);
+		pessoa.setFoto(pessoaDTO.getFoto());
 		
-		return new PessoaDTO(repository.save(pessoa));
+		pessoaDTO = new PessoaDTO(repository.save(pessoa));
+		
+		return pessoaDTO;
 	}
 	
 	private void salvarFotoPerfil(PessoaDTO pessoaDTO){

@@ -23,7 +23,9 @@ public class PessoaDTO implements Serializable{
 	
 	private String foto;
 	
-	private MultipartFile arquivoFoto;
+	private ArquivoMultipartImpl arquivoFoto;
+	
+	private String imagemBase64;
 	
 	private String email;
 	
@@ -106,7 +108,16 @@ public class PessoaDTO implements Serializable{
 		return arquivoFoto;
 	}
 	
-	public void setArquivoFoto(MultipartFile arquivoFoto) {
+	public void setArquivoFoto(ArquivoMultipartImpl arquivoFoto) {
 		this.arquivoFoto = arquivoFoto;
+	}
+
+	public String getImagemBase64() {
+		return imagemBase64;
+	}
+
+	public void setImagemBase64(String imagemBase64) {
+		this.imagemBase64 = imagemBase64;
+		this.arquivoFoto = new ArquivoMultipartImpl(imagemBase64);
 	}
 }

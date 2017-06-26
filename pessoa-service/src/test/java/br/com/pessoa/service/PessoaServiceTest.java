@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.pessoa.PessoaServiceApplicationTests;
+import br.com.pessoa.dto.ArquivoMultipartImpl;
 import br.com.pessoa.dto.PessoaDTO;
 import br.com.pessoa.exception.DadoInvalidoException;
 
@@ -24,11 +25,11 @@ public class PessoaServiceTest extends PessoaServiceApplicationTests{
 	@Autowired
 	PessoaService service;
 	
-	MultipartFile multipartFile;
+	ArquivoMultipartImpl multipartFile;
 	
 	@Before
 	public void init() throws URISyntaxException, IOException{
-		multipartFile = Mockito.mock(MultipartFile.class);
+		multipartFile = Mockito.mock(ArquivoMultipartImpl.class);
 		
 		Path path = Paths.get(this.getClass().getClassLoader().getResource("img_test/perfil_1_05Mb.jpg").toURI());
 		byte[] arquivo = Files.readAllBytes(path);
