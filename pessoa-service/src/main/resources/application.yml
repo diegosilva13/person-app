@@ -3,7 +3,7 @@ server:
     port: 8080
 
 arquivos:
-    pastaUpload: C:\\uploads\
+    pastaUpload: C:/uploads/
 
 spring:
     datasource:

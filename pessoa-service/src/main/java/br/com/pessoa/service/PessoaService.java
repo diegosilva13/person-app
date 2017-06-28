@@ -87,7 +87,7 @@ public class PessoaService extends BaseService{
 			
 			String arquivoAntigo = pessoaDTO.getFoto();
 			
-			pessoaDTO.setFoto(arquivoUtil.save(nomeArquivo, conteudoArquivo));
+		//	pessoaDTO.setFoto(arquivoUtil.save(nomeArquivo, conteudoArquivo));
 			
 			arquivoUtil.apagar(arquivoAntigo);
 		} catch (IOException e) {

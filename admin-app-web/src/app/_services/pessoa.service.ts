@@ -17,4 +17,16 @@ export class PessoaService {
         return this.http.post(url, pessoa, new RequestOptions({headers: headers}))
             .map((response: Response) => response.json());
     }
+
+    uploadFoto(arquivo: any){
+      let url = 'http://localhost:8080/api/upload';
+        let headers = new Headers({
+        });
+
+        let formData = new FormData();
+            formData.append("file", arquivo);
+            console.log(url);
+        return this.http.post(url, formData, new RequestOptions({headers: headers}))
+            .map((response: Response) => response.json());
+    }
 }

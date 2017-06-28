@@ -23,6 +23,16 @@ export class CreatePessoasComponent implements OnInit {
     mudarImagem(event: any){
       let arquivos: FileList = event.target.files;
       if(arquivos.length > 0) {
+        this.pessoaService.uploadFoto(arquivos[0])
+           .subscribe(
+               data => {
+                  console.log(data);
+               },
+               error => {
+                   console.log(error);
+               }
+             );
+
           let arquivo: File = arquivos[0];
           this.nomeImagem = arquivo.name;
           var leitorArquivo:FileReader = new FileReader();
