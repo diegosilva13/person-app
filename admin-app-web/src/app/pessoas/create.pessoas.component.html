@@ -20,8 +20,8 @@
                     <div class="col-md-7">
                       <div class="form-group">
                           <label for="images">Selecione uma foto (Formatos: jpg, png, gif, jpeg)</label>
-                          <input (change)="mudarImagem($event)" type="file" name="arquivoFoto" class="form-control" id="images" onchange="previewImages();" single/>
-                          <div class="row" id="image_preview"></div>
+                          <input (change)="mudarImagem($event)" type="file" name="arquivoFoto" class="form-control" id="images" onchange="visualizarImages();" value="" single/>
+                          <div class="row" id="ver_imagem"></div>
                       </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                        </div>
                    </div>
                    <button [disabled]="loading"  type="submit" class="btn btn-primary">Salvar</button>
-                   <button [disabled]="loading" (ngClick)="redirecionar(pessoas)" type="reset" class="btn btn-secondary">Voltar</button>
+                   <a [routerLink]="['/pessoas']" style="cursor: pointer;" (click)="model = {}" class="btn btn-default" role="button">Listagem</a>
               </form>
             </div>
         </div>

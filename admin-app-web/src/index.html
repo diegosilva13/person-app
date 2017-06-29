@@ -108,12 +108,13 @@
 <script src="assets/dist/js/sb-admin-2.js"></script>
 
 <script type="text/javascript" >
-  function previewImages(){
-   $('#image_preview').html("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[0])+"'></div>");
+
+  function visualizarImages(){
+   $('#ver_imagem').html("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[0])+"'></div>");
   }
 
   function limparImagem(){
-   $('#image_preview').html("");
+   $('#ver_imagem').html("");
    $('#images').val("");
   }
 

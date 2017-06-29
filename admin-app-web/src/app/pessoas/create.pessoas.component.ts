@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertService, PessoaService} from '../_services/index';
 import { Router} from '@angular/router';
+import {HtmlUtil} from "app/_utils/index";
 
 @Component({
     moduleId: module.id.toString(),
@@ -10,10 +11,12 @@ export class CreatePessoasComponent implements OnInit {
     model: any = {};
     loading: boolean;
     nomeImagem: string = "";
+    
     constructor(
       private alertService: AlertService,
       private pessoaService: PessoaService,
-      private router: Router
+      private router: Router,
+      private htmlUtil: HtmlUtil
     ) {}
 
     ngOnInit() {
@@ -26,20 +29,18 @@ export class CreatePessoasComponent implements OnInit {
         this.pessoaService.uploadFoto(arquivos[0])
            .subscribe(
                data => {
-                  console.log(data);
+                  if(data.codigoResposta == 200){
+                    this.model.foto = data.objetoResposta;
+                  }else{
+                     this.alertService.error(data.mensagem);
+                     this.limparImagem();
+                  }
                },
                error => {
-                   console.log(error);
+                   this.alertService.error(error);
+                   this.limparImagem();
                }
-             );
-
-          let arquivo: File = arquivos[0];
-          this.nomeImagem = arquivo.name;
-          var leitorArquivo:FileReader = new FileReader();
-          leitorArquivo.onloadend = (e) => {
-              this.model.imagemBase64 = this.nomeImagem +','+leitorArquivo.result;
-          }
-        leitorArquivo.readAsDataURL(arquivo);
+           );
       }
     }
 
@@ -52,8 +53,10 @@ export class CreatePessoasComponent implements OnInit {
                 if(data.codigoResposta == 200){
                     this.alertService.success("Operação realizada com sucesso.", true);
                     this.model = {};
+                    this.limparImagem();
                   }else{
                      this.alertService.error(data.mensagem);
+                     this.model.dataNascimento = ""; 
                   }
                 this.loading = false;
              },
@@ -61,6 +64,7 @@ export class CreatePessoasComponent implements OnInit {
                  console.log(error);
                  this.alertService.error(error.mensagem || error);
                  this.loading = false;
+                 this.model.dataNascimento = ""; 
              }
            );
 
@@ -71,5 +75,9 @@ export class CreatePessoasComponent implements OnInit {
       this.model = {};
       console.log(pagina);
       this.router.navigate([pagina]);
+    }
+
+    limparImagem(){
+      this.htmlUtil.limparHtmlPorId("ver_imagem");
     }
 }

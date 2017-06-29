@@ -24,4 +24,18 @@ public class DadoInvalidoException extends RuntimeException {
 	public List<String> getMensagens() {
 		return mensagens;
 	}
+	
+	@Override
+	public String getMessage() {
+		StringBuilder erros = new StringBuilder();
+		if(mensagens != null && !mensagens.isEmpty()){
+			mensagens.forEach(msg -> {erros.append(msg);});
+		}
+		
+		if(super.getMessage() != null){
+			erros.append(super.getMessage());
+		}
+		
+		return erros.toString();
+	}
 }

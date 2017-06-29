@@ -1,21 +1,12 @@
 package br.com.pessoa.service;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Date;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
 
 import br.com.pessoa.PessoaServiceApplicationTests;
-import br.com.pessoa.dto.ArquivoMultipartImpl;
 import br.com.pessoa.dto.PessoaDTO;
 import br.com.pessoa.exception.DadoInvalidoException;
 
@@ -23,19 +14,7 @@ import br.com.pessoa.exception.DadoInvalidoException;
 public class PessoaServiceTest extends PessoaServiceApplicationTests{
 	
 	@Autowired
-	PessoaService service;
-	
-	ArquivoMultipartImpl multipartFile;
-	
-	@Before
-	public void init() throws URISyntaxException, IOException{
-		multipartFile = Mockito.mock(ArquivoMultipartImpl.class);
-		
-		Path path = Paths.get(this.getClass().getClassLoader().getResource("img_test/perfil_1_05Mb.jpg").toURI());
-		byte[] arquivo = Files.readAllBytes(path);
-		
-		Mockito.when(multipartFile.getBytes()).thenReturn(arquivo);
-	}
+	private PessoaService service;
 	
 	@Test(expected = DadoInvalidoException.class)
 	public void tentarCriarPessoaSemDadosTest(){
@@ -114,43 +93,18 @@ public class PessoaServiceTest extends PessoaServiceApplicationTests{
 		}
 	}
 	
-	@Test
-	public void tentarCriarPessoaComFormatoDeImagemDePerfilInvalidaTest(){
+	@Test(expected = DadoInvalidoException.class)
+	public void validarFormatoDeImagemInvalidoTest(){
 		PessoaDTO pessoaDTO = new PessoaDTO();
-		pessoaDTO.setNome("Testador da Silva");
-		pessoaDTO.setCpf("04653183120");
-		pessoaDTO.setEmail("etste@email.com");
-		pessoaDTO.setDataNascimento(new Date());
-		pessoaDTO.setFoto("c/d/teste.jpeg");
+		pessoaDTO.setFoto("c/d/teste.pdf");
+	
+		service.validaFormatoFotoPerfil(pessoaDTO.getFoto());
 		
-		Mockito.when(multipartFile.getName()).thenReturn("perfil_1_05Mb.pdf");
-		
-		pessoaDTO.setArquivoFoto(multipartFile);
-		try {
-			service.criar(pessoaDTO);
-		} catch (DadoInvalidoException e) {
-			Assert.assertEquals(true, e.getMessage().equalsIgnoreCase("Formato de imagem inválido. (Formatos permitidos jpg, png, gif e jpeg)"));
-		}
 	}
 	
-	@Test
-	public void tentarCriarPessoaComFotoDePerfilMaiorQue1MbTest(){
-		try {
-			PessoaDTO pessoaDTO = new PessoaDTO();
-			pessoaDTO.setNome("Testador da Silva");
-			pessoaDTO.setCpf("04653183120");
-			pessoaDTO.setEmail("etste@email.com");
-			pessoaDTO.setDataNascimento(new Date());
-			pessoaDTO.setFoto("c/d/teste.jpeg");
-			
-			Mockito.when(multipartFile.getName()).thenReturn("perfil_1_05Mb.jpg");
-			
-			pessoaDTO.setArquivoFoto(multipartFile);
-			
-			service.criar(pessoaDTO);
-		} catch (DadoInvalidoException e) {
-			Assert.assertEquals(true, e.getMessage().equalsIgnoreCase("O tamanho máximo permitido da imagem é de 1MB."));
-		}
+	@Test(expected = DadoInvalidoException.class)
+	public void validarFotoPerfilMaiorQue1MBTest(){
+		service.validaTamanhoFotoPerfil(new byte[10737418]);
 	}
 	
 	@Test
@@ -260,45 +214,6 @@ public class PessoaServiceTest extends PessoaServiceApplicationTests{
 			service.atualizar(1, pessoaDTO);
 		} catch (DadoInvalidoException e) {
 			Assert.assertEquals(true, e.getMensagens().contains("O CPF informado é inválido."));
-		}
-	}
-	
-	@Test
-	public void tentarAtualizarPessoaComFormatoDeImagemDePerfilInvalidaTest(){
-		PessoaDTO pessoaDTO = new PessoaDTO();
-		pessoaDTO.setNome("Testador da Silva");
-		pessoaDTO.setCpf("04653183120");
-		pessoaDTO.setEmail("etste@email.com");
-		pessoaDTO.setDataNascimento(new Date());
-		pessoaDTO.setFoto("c/d/teste.jpeg");
-		
-		Mockito.when(multipartFile.getName()).thenReturn("perfil_1_05Mb.pdf");
-		
-		pessoaDTO.setArquivoFoto(multipartFile);
-		try {
-			service.criar(pessoaDTO);
-		} catch (DadoInvalidoException e) {
-			Assert.assertEquals(true, e.getMessage().equalsIgnoreCase("Formato de imagem inválido. (Formatos permitidos jpg, png, gif e jpeg)"));
-		}
-	}
-	
-	@Test
-	public void tentarAtualizarPessoaComFotoDePerfilMaiorQue1MbTest(){
-		try {
-			PessoaDTO pessoaDTO = new PessoaDTO();
-			pessoaDTO.setNome("Testador da Silva");
-			pessoaDTO.setCpf("04653183120");
-			pessoaDTO.setEmail("etste@email.com");
-			pessoaDTO.setDataNascimento(new Date());
-			pessoaDTO.setFoto("c/d/teste.jpeg");
-			
-			Mockito.when(multipartFile.getName()).thenReturn("perfil_1_05Mb.jpg");
-			
-			pessoaDTO.setArquivoFoto(multipartFile);
-			
-			service.criar(pessoaDTO);
-		} catch (DadoInvalidoException e) {
-			Assert.assertEquals(true, e.getMessage().equalsIgnoreCase("O tamanho máximo permitido da imagem é de 1MB."));
 		}
 	}
 	

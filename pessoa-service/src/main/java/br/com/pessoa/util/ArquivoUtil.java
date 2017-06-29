@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +38,7 @@ public class ArquivoUtil implements Serializable {
 	 */
 	public String salvar(String nome, byte[] bytes, TipoDiretorio tipoDiretorio) {
 		try {
-			String estruturaDePastas = criarCriarEstruturaPastas(tipoDiretorio);
+			String estruturaDePastas = criarEstruturaDePastas(tipoDiretorio, LocalDate.now());
 			String nomeArquivo = criarNomeArquivo(nome); 
 			String caminhoArquivo = estruturaDePastas + nomeArquivo;
 			Path path = Paths.get(caminhoArquivo);
@@ -50,7 +51,7 @@ public class ArquivoUtil implements Serializable {
 		}
 	}
 
-	public String copiarParaDefinitivo(String nomeArquivo) {
+	public String copiarParaPastaDefinitiva(String nomeArquivo) {
 		TipoDiretorio temporario = TipoDiretorio.TEMPORARIO;
 		TipoDiretorio definitivo = TipoDiretorio.DEFINITIVO;
 
@@ -62,7 +63,12 @@ public class ArquivoUtil implements Serializable {
 		Path destino = Paths.get(novoArquivo);
 
 		try {
-			Files.copy(origem, destino);
+			destino.toFile().mkdirs();
+			
+			if(!destino.toFile().exists()){
+				destino.toFile().createNewFile();
+				Files.copy(origem, destino);
+			} 
 			return novoArquivo.replace(DIRETORIO_UPLOAD, "");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -71,30 +77,36 @@ public class ArquivoUtil implements Serializable {
 	}
 
 	private String criarNomeArquivo(String nome) {
-		StringBuilder nomeArquivo = new StringBuilder(dataEmTexto().replace("/", ""));
+		StringBuilder nomeArquivo = new StringBuilder(dataEmString(LocalDate.now()).replace("/", ""));
 		nomeArquivo.append(System.currentTimeMillis());
-		nomeArquivo.append(nome);
+		nomeArquivo.append("_"+nome);
 		return nomeArquivo.toString();
 	}
 
-	private String criarCriarEstruturaPastas(TipoDiretorio tipoArquivo) throws IOException {
+	private String criarEstruturaDePastas(TipoDiretorio tipoArquivo, LocalDate data) throws IOException {
 		StringBuilder pastas = new StringBuilder(DIRETORIO_UPLOAD);
 		pastas.append(tipoArquivo.toString().toLowerCase());
 		pastas.append("/");
-		pastas.append(dataEmTexto());
+		pastas.append(dataEmString(data));
 
 		new File(pastas.toString()).mkdirs();
 		return pastas.toString();
 	}
 
-	private String dataEmTexto() {
-		Integer dia = LocalDate.now().getDayOfMonth();
-		Integer mes = LocalDate.now().getMonthValue();
-		Integer ano = LocalDate.now().getYear();
-		StringBuilder data = new StringBuilder();
-		data.append(ano).append("/").append(mes).append("/").append(dia).append("/");
+	private String dataEmString(LocalDate data) {
+		Integer dia = data.getDayOfMonth();
+		Integer mes = data.getMonthValue();
+		Integer ano = data.getYear();
+		
+		StringBuilder dataString = new StringBuilder();
+		dataString.append(ano)
+			.append("/")
+			.append(mes)
+			.append("/")
+			.append(dia)
+			.append("/");
 
-		return data.toString();
+		return dataString.toString();
 	}
 
 	public void apagar(String arquivoAntigo) {
@@ -105,5 +117,24 @@ public class ArquivoUtil implements Serializable {
 		if (arquivo.exists()) {
 			arquivo.delete();
 		}
+	}
+	
+	public void apagarTemporariosParaAData(LocalDate data){
+		try {
+			String pastas = criarEstruturaDePastas(TipoDiretorio.TEMPORARIO, data);
+			FileUtils.deleteDirectory(Paths.get(pastas).toFile());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("Falha ao apagar arquivos temporários.");
+		}
+		
+	}
+	
+	public float tamanhoArquivoEmKB(byte[] conteudoArquivo){
+		return conteudoArquivo.length / 1024;
+	}
+	
+	public float tamanhoArquivoEmMB(byte[] conteudoArquivo){
+		return tamanhoArquivoEmKB(conteudoArquivo) / 1024;
 	}
 }

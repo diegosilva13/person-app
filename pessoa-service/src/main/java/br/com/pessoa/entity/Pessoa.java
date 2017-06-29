@@ -41,7 +41,7 @@ public class Pessoa implements Serializable{
 	
 	@NotNull(message = "CPF - Preenchimento Obrigatório.")
 	@CPF(message = "O CPF informado é inválido.")
-	@Column(name = "cpf", unique = true, nullable = false)
+	@Column(name = "cpf", nullable = false)
 	private String cpf;
 	
 	@Column(name = "foto")
@@ -54,7 +54,7 @@ public class Pessoa implements Serializable{
 	private String email;
 	
 	@NotNull(message = "Data de Nascimento - Preenchimento Obrigatório.")
-	@Column(name = "data_nascimento", nullable = false, columnDefinition = "date")
+	@Column(name = "data_nascimento", nullable = false)
 	private Date dataNascimento;
 	
 	private Boolean ativo;

@@ -20,6 +20,10 @@ spring:
         show-sql: true
     profiles: 
         active: dev
+    http:
+        multipart:
+            max-file-size: -1
+            max-request-size: -1    
             
 ---
 

@@ -1,9 +1,11 @@
 package br.com.pessoa.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.pessoa.entity.Pessoa;
 
@@ -23,13 +25,12 @@ public class PessoaDTO implements Serializable{
 	
 	private String foto;
 	
-	private ArquivoMultipartImpl arquivoFoto;
-	
-	private String imagemBase64;
-	
 	private String email;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dataNascimento;
+	
+	private List<Pessoa> pessoas;
 	
 	public PessoaDTO() {
 		
@@ -45,6 +46,10 @@ public class PessoaDTO implements Serializable{
 		this.id = pessoa.getId();
 	}
 	
+	public PessoaDTO(List<Pessoa> todos) {
+		this.pessoas = todos;
+	}
+
 	public Pessoa pessoa(){
 		Pessoa pessoa = new Pessoa();
 		pessoa.setCpf(cpf);
@@ -104,20 +109,14 @@ public class PessoaDTO implements Serializable{
 		this.dataNascimento = dataNascimento;
 	}
 	
-	public MultipartFile getArquivoFoto() {
-		return arquivoFoto;
-	}
-	
-	public void setArquivoFoto(ArquivoMultipartImpl arquivoFoto) {
-		this.arquivoFoto = arquivoFoto;
-	}
-
-	public String getImagemBase64() {
-		return imagemBase64;
-	}
-
-	public void setImagemBase64(String imagemBase64) {
-		this.imagemBase64 = imagemBase64;
-		this.arquivoFoto = new ArquivoMultipartImpl(imagemBase64);
+	public List<PessoaDTO> lista(){
+		List<PessoaDTO> lista = new ArrayList<>();
+		if(pessoas != null && !pessoas.isEmpty()){
+			pessoas.forEach(pessoa ->{
+				lista.add(new PessoaDTO(pessoa));
+			});
+		}
+		
+		return lista;
 	}
 }

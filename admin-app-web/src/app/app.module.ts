@@ -9,6 +9,9 @@ import {APP_BASE_HREF} from "@angular/common";
 import {ListPessoasComponent, CreatePessoasComponent} from "./pessoas/index";
 import {NavBarComponent, AlertComponent} from "./_directives/index";
 import {AlertService, PessoaService} from "./_services/index";
+import {HtmlUtil} from "app/_utils/index";
+import {DataFilterPipe} from "app/_pipes/index";
+import {DataTableModule} from "angular2-datatable";
 
 @NgModule({
   declarations: [
@@ -16,19 +19,22 @@ import {AlertService, PessoaService} from "./_services/index";
     ListPessoasComponent,
     CreatePessoasComponent,
     NavBarComponent,
-    AlertComponent
+    AlertComponent,
+    DataFilterPipe
   ],
     imports: [
       BrowserModule,
       FormsModule,
       HttpModule,
-      routing
+      routing,
+      DataTableModule
     ],
   providers: [
     {provide: APP_BASE_HREF, useValue : '/' },
     BaseRequestOptions,
     AlertService,
-    PessoaService
+    PessoaService,
+    HtmlUtil
   ],
   bootstrap: [AppComponent]
 })

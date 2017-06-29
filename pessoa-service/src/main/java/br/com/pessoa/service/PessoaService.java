@@ -1,10 +1,9 @@
 package br.com.pessoa.service;
 
-import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import br.com.pessoa.dto.PessoaDTO;
 import br.com.pessoa.entity.BaseService;
@@ -25,7 +24,7 @@ public class PessoaService extends BaseService{
 	private PessoaRepository repository;
 	
 	@Autowired
-	ArquivoUtil arquivoUtil;
+	private ArquivoUtil arquivoUtil;
 	
 	public PessoaDTO criar(PessoaDTO pessoaDTO){
 		Pessoa pessoa = pessoaDTO.pessoa();
@@ -35,14 +34,12 @@ public class PessoaService extends BaseService{
 		if(repository.findByCpf(pessoa.getCpf()).isPresent()){
 			throw new DadoInvalidoException("Esse CPF já se encontra cadastrado no sistema.");
 		}
+
+		pessoa = repository.save(pessoa);
 		
-		salvarFotoPerfil(pessoaDTO);
-		pessoa.setFoto(pessoaDTO.getFoto());
+		pessoa.setFoto(arquivoUtil.copiarParaPastaDefinitiva(pessoaDTO.getFoto()));
 		
-		pessoaDTO = new PessoaDTO(repository.save(pessoa));
-		
-		
-		return pessoaDTO;
+		return new PessoaDTO(repository.save(pessoa));
 	}
 	
 	public PessoaDTO atualizar(Integer id, PessoaDTO pessoaDTO){
@@ -50,49 +47,37 @@ public class PessoaService extends BaseService{
 		pessoa.setCpf(pessoaDTO.getCpf());
 		pessoa.setEmail(pessoaDTO.getEmail());
 		pessoa.setDataNascimento(pessoaDTO.getDataNascimento());
-		pessoa.setFoto(pessoaDTO.getFoto());
 		pessoa.setNome(pessoaDTO.getNome());
 		
 		super.validarDados(pessoa);
 		
-		salvarFotoPerfil(pessoaDTO);
-		pessoa.setFoto(pessoaDTO.getFoto());
+		pessoa = repository.save(pessoa);
 		
-		pessoaDTO = new PessoaDTO(repository.save(pessoa));
+		if(pessoaDTO.getFoto() != null && pessoa.getFoto().equals(pessoaDTO.getFoto())){
+			arquivoUtil.apagar(pessoa.getFoto());
+			pessoa.setFoto(arquivoUtil.copiarParaPastaDefinitiva(pessoaDTO.getFoto()));
+		}
 		
-		return pessoaDTO;
+		return new PessoaDTO(repository.save(pessoa));
 	}
 	
-	private void salvarFotoPerfil(PessoaDTO pessoaDTO){
-		MultipartFile fotoPerfil = pessoaDTO.getArquivoFoto();
-		
-		if(fotoPerfil == null){
-			return;
+	public void validaTamanhoFotoPerfil(byte[] conteudoArquivo){
+		if(arquivoUtil.tamanhoArquivoEmMB(conteudoArquivo) > 1){
+			throw new DadoInvalidoException("O tamanho máximo permitido para a imagem do perfil é de 1MB.");
 		}
-		
-		if(!fotoPerfil.getName().matches(".*\\.(jpg|png|gif|jpeg)")){
+	}
+	
+	public void validaFormatoFotoPerfil(String nomeArquivo){
+		if(!nomeArquivo.matches(".*\\.(jpg|png|gif|jpeg)")){
 			throw new DadoInvalidoException("Formato de imagem inválido. (Formatos permitidos jpg, png, gif e jpeg)");
 		}
-		
-		byte[] conteudoArquivo = null;
-		
-		try {
-			conteudoArquivo = fotoPerfil.getBytes();
-			float tamanhoEmKB = conteudoArquivo.length / 1024;
-			float tamanhoEmMB = tamanhoEmKB / 1024;
-			if(tamanhoEmMB > 1){
-				throw new DadoInvalidoException("O tamanho máximo permitido da imagem é de 1MB.");
-			}
-			String nomeArquivo = pessoaDTO.getCpf()+fotoPerfil.getName();
-			
-			String arquivoAntigo = pessoaDTO.getFoto();
-			
-		//	pessoaDTO.setFoto(arquivoUtil.save(nomeArquivo, conteudoArquivo));
-			
-			arquivoUtil.apagar(arquivoAntigo);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new DadoInvalidoException("Ocorreu ao salvar a imagem informada. Verifique se o arquivo possui um formato válido ou se a imagem não está corro");
-		}
+	}
+	
+	public List<PessoaDTO> todos(){
+		return new PessoaDTO(repository.findAll()).lista();
+	}
+
+	public void excluir(Integer id) {
+		repository.delete(id);
 	}
 }
