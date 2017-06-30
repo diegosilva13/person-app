@@ -3,8 +3,9 @@ server:
     port: 8080
 #Coloque aqui um caminho para uploads dos arquivos 
 #Exemplo: C:/uploads/
+#A barra no final é importante
 arquivos:
-    pastaUpload: C:/caminho/minha/pasta
+    pastaUpload: C:/caminho/minha/pasta/
 
 spring:
     datasource:
