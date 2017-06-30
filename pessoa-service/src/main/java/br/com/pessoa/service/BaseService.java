@@ -1,4 +1,4 @@
-package br.com.pessoa.entity;
+package br.com.pessoa.service;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.pessoa.dto.PessoaDTO;
-import br.com.pessoa.entity.BaseService;
 import br.com.pessoa.entity.Pessoa;
 import br.com.pessoa.exception.DadoInvalidoException;
 import br.com.pessoa.repository.PessoaRepository;

@@ -1,9 +1,10 @@
 server:
     contextPath: /api
     port: 8080
-
+#Coloque aqui um caminho para uploads dos arquivos 
+#Exemplo: C:/uploads/
 arquivos:
-    pastaUpload: C:/Users/Diego_Brener/Downloads/
+    pastaUpload: C:/caminho/minha/pasta
 
 spring:
     datasource:
