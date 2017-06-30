@@ -1,6 +1,6 @@
 # Admin App Web
 
-Esse é o cliente web da aplicação[pessoa-service](https://github.com/diegosilva13/projeto-admin-pessoa/tree/master/pessoa-service).
+Esse é o cliente web da aplicação [pessoa-service](https://github.com/diegosilva13/projeto-admin-pessoa/tree/master/pessoa-service).
 
 Esse projeto foi gerado inicialmente utilizando [Angular CLI](https://github.com/angular/angular-cli) version 1.1.0.
 
