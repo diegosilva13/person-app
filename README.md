@@ -8,7 +8,17 @@ A aplicação cliente está totalmente desaclopada da aplicação servidor, toda
 Nas validações utilizei a implementação do JSR-303/JSR-349 Bean Validation do Spring. 
 Para a exclusão lógica dos dados utilizei a anotação 
   `@SQLDelete(sql = "Update Pessoa set ativo = false where id = ?")` na classe `Pessoa` que possibilita, ao executar o método `delete(id)` do repository, atualizar o status da coluna [ativo] para `false`. Também utilizei a anotação `@Where(clause = "ativo = true")` para possibilitar trabalhar sem me preocupar em colocar `ativo=true` em cada select executado. Como a exclusão lógica mantém o dado no banco foi necessário tirar a restrição `Unique` das tabelas.
-  Por limitações de Hardware não foi possível utilizar o Docker no projeto.
-  
+  Por limitações de Hardware não foi possível utilizar o Docker no projeto nem o MongoDB.
+
+### Melhorias
+
+* Aumentar cobertura de testes
+* Definir Politicas para limpezas dos arquivos temporários, ou até mesmo guarda-los em um banco NoSql.
 
 # Executando o Projeto
+* [pessoa-service](https://github.com/diegosilva13/projeto-admin-pessoa/tree/master/pessoa-service) 
+* [cliente-web](https://github.com/diegosilva13/projeto-admin-pessoa/tree/master/admin-app-web) 
+
+
+
+-- contato: diego.dbssilva@gmail.com
