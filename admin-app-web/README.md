@@ -8,6 +8,6 @@ Esse projeto foi gerado inicialmente utilizando [Angular CLI](https://github.com
 
 Para execução dessa aplicação será necessário uma instalação do Node 6.9.0 ou superior e o NPM 3 ou superior.
 
-Acesse o diretório da aplicação e `npm install` depois execute `npm startnpm install -g @angular/cli` aguarde a aplicação subir e navegue até `http://localhost:4200/`. 
+Acesse o diretório da aplicação e `npm install` depois execute `npm start` aguarde a aplicação subir e navegue até `http://localhost:4200/`. 
 
 Se ocorrer algum erro no inicio da instalação execute `npm install -g @angular/cli`.
