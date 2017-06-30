@@ -102,7 +102,7 @@ public class PessoaResource {
 			consumes = MediaType.MULTIPART_FORM_DATA_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public RespostaDTO uploadFile(@RequestParam("arquivo") MultipartFile arquivo) {
+	public RespostaDTO upload(@RequestParam("arquivo") MultipartFile arquivo) {
 		RespostaDTO dto = new RespostaDTO();
 		try {
 			service.validaFormatoFotoPerfil(arquivo.getOriginalFilename());
