@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
@@ -27,15 +28,6 @@ public class ArquivoUtil implements Serializable {
 	@Value("${arquivos.pastaUpload}")
 	private String DIRETORIO_UPLOAD;
 
-	/**
-	 * Salva o arquivo recebido no diretório expecificado pela propriedade
-	 * ${arquivos.pastaUpload} configurada no application.yml
-	 * 
-	 * @param nome
-	 * @param bytes
-	 * @return
-	 * @throws IOException
-	 */
 	public String salvar(String nome, byte[] bytes, TipoDiretorio tipoDiretorio) {
 		try {
 			String estruturaDePastas = criarEstruturaDePastas(tipoDiretorio, LocalDate.now());
@@ -63,12 +55,9 @@ public class ArquivoUtil implements Serializable {
 		Path destino = Paths.get(novoArquivo);
 
 		try {
-			destino.toFile().mkdirs();
-			
-			if(!destino.toFile().exists()){
-				destino.toFile().createNewFile();
-				Files.copy(origem, destino);
-			} 
+			destino.toFile().getParentFile().mkdirs();
+			destino.toFile().createNewFile();
+			Files.copy(origem, destino, StandardCopyOption.REPLACE_EXISTING); 
 			return novoArquivo.replace(DIRETORIO_UPLOAD, "");
 		} catch (IOException e) {
 			e.printStackTrace();

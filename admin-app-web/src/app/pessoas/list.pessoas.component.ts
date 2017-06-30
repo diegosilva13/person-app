@@ -9,7 +9,10 @@ import { AlertService, PessoaService} from '../_services/index';
 
 export class ListPessoasComponent implements OnInit {
     public data;
-    public filterQuery = {};
+    public filtrarPeloNome = "";
+    public filtrarPeloCPF = "";
+    public filtrarPeloEmail = "";
+    public filtrarPeloNascimento = "";
     public rowsOnPage = 10;
     public sortBy = "nome";
     public sortOrder = "asc";

@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -34,7 +33,6 @@ public class Pessoa implements Serializable{
 	private Integer id;
 	
 	@NotNull(message = "Nome - Preenchimento Obrigatório.")
-	@Pattern(regexp = "[a-zA-Z\\s]+", message = "O nome informado é inválido.")
 	@Length(max = 150, message = "Nome - O tamanho máximo permitido de caracteres é 150.")
 	@Column(name = "nome", length = 150)
 	private String nome;

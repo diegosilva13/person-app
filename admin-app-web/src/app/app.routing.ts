@@ -1,10 +1,15 @@
 ﻿import { Routes, RouterModule } from '@angular/router';
 
-import {ListPessoasComponent, CreatePessoasComponent} from "./pessoas/index";
+import {
+	ListPessoasComponent, 
+	CreatePessoasComponent, 
+	EditPessoasComponent
+} from "./pessoas/index";
 
 const appRoutes: Routes = [
   { path: 'pessoas', component: ListPessoasComponent},
-  { path: 'pessoas/new', component: CreatePessoasComponent},
+  { path: 'pessoas/cadastrar', component: CreatePessoasComponent},
+  { path: 'pessoas/editar/:id', component: EditPessoasComponent},
 
   // otherwise redirect to home
   { path: '**', redirectTo: 'pessoas'}

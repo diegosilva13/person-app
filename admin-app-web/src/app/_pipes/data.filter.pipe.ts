@@ -2,21 +2,60 @@ import * as _ from "lodash";
 import {Pipe, PipeTransform} from "@angular/core";
 
 @Pipe({
-    name: "dataFilter"
+    name: "filtroPeloNome"
 })
-export class DataFilterPipe implements PipeTransform {
+export class FiltroPeloNomePipe implements PipeTransform {
 
     transform(array: any[], query: any): any {
-        let data = JSON.parse(JSON.stringify(query));
-        if (data.nome || data.cpf || data.email || data.dataNascimento) {
-        	let cpf = data.cpf != "" ? data.cpf.replace(".", "").replace("-","") : "";
+        if (query) {
+            return _.filter(array, row=>row.nome.indexOf(query) > -1);
 
-            return _.filter(array, row=>row.nome.indexOf(data.nome) > -1)
-            	|| _.filter(array, row=>row.cpf.indexOf(cpf) > -1)
-        		|| _.filter(array, row=>row.email.indexOf(data.email) > -1)
-        		|| _.filter(array, row=>row.dataNascimento.indexOf(data.dataNascimento) > -1);
-
-        }	
+        }   
         return array;
     }
 }
+
+@Pipe({
+    name: "filtroPeloEmail"
+})
+export class FiltroPeloNomeEmail implements PipeTransform {
+
+    transform(array: any[], query: any): any {
+        if (query) {
+            return _.filter(array, row=>row.email.indexOf(query) > -1);
+
+        }   
+        return array;
+    }
+}
+
+@Pipe({
+    name: "filtroPeloCpf"
+})
+export class FiltroPeloCPFPipe implements PipeTransform {
+
+    transform(array: any[], query: any): any {
+        if (query) {
+            query = query.replace(".","").replace("-","");
+            return _.filter(array, row=>row.cpf.indexOf(query) > -1);
+
+        }   
+        return array;
+    }
+}
+
+
+@Pipe({
+    name: "filtroPeloNasc"
+})
+export class FiltroPeloNascPipe implements PipeTransform {
+
+    transform(array: any[], query: any): any {
+        if (query) {
+            return _.filter(array, row=>row.dataNascimento.indexOf(query) > -1);
+
+        }   
+        return array;
+    }
+}
+

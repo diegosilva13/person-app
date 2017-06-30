@@ -34,17 +34,6 @@ public class PessoaServiceTest extends PessoaServiceApplicationTests{
 	}
 	
 	@Test
-	public void tentarCriarPessoaComNomeInvalidoTest(){
-		PessoaDTO pessoaDTO = new PessoaDTO();
-		pessoaDTO.setNome("12312");
-		try {
-			service.criar(pessoaDTO);
-		} catch (DadoInvalidoException e) {
-			Assert.assertEquals(true, e.getMensagens().contains("O nome informado é inválido."));
-		}
-	}
-	
-	@Test
 	public void tentarCriarPessoaComNomeMaiorQue150Test(){
 		PessoaDTO pessoaDTO = new PessoaDTO();
 		pessoaDTO.setNome("It is important to be able to perform some integration testing without requiring deployment to your application server or connecting to other enterprise infrastructure.");
@@ -168,17 +157,6 @@ public class PessoaServiceTest extends PessoaServiceApplicationTests{
 			service.atualizar(1, pessoaDTO);
 		} catch (DadoInvalidoException e) {
 			Assert.assertEquals(true, e.getMensagens().contains("Nome - Preenchimento Obrigatório."));
-		}
-	}
-	
-	@Test
-	public void tentarAtualizarPessoaComNomeInvalidoTest(){
-		PessoaDTO pessoaDTO = new PessoaDTO();
-		pessoaDTO.setNome("12312");
-		try {
-			service.atualizar(1, pessoaDTO);
-		} catch (DadoInvalidoException e) {
-			Assert.assertEquals(true, e.getMensagens().contains("O nome informado é inválido."));
 		}
 	}
 	

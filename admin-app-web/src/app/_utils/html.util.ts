@@ -13,4 +13,13 @@ export class HtmlUtil{
         console.log(e);
       }
     }
+
+    visualizarImagemNoId(idElemento: string, urlImagem: string){
+      try {
+        let elemento = document.getElementById(idElemento);
+        elemento.innerHTML = "<div class='col-md-3'><img class='img-responsive' src='"+urlImagem+"'></div>";
+      }catch (e){
+        console.log(e);
+      }
+    }
 }

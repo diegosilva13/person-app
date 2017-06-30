@@ -2,7 +2,7 @@
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-      <h4 class="page-header">Cadastro</h4>
+      <h4 class="page-header">Edição</h4>
     </div>
     <!-- /.col-lg-12 -->
   </div>
@@ -12,15 +12,15 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Cadastrar Nova Pessoa
+                Editar dados da Pessoa
             </div>
             <div class="panel-body">
-              <form  name="form" #formSalvar="ngForm" (ngSubmit)="formSalvar.form.valid && salvar(formSalvar)" onsubmit="limparImagem();" novalidate enctype="multipart/form-data">
+              <form  name="form" #formSalvar="ngForm" (ngSubmit)="formSalvar.form.valid && atualizar(formSalvar)" onsubmit="limparImagem();" novalidate enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-7">
                       <div class="form-group">
                           <label for="images">Selecione uma foto (Formatos: jpg, png, gif, jpeg)</label>
-                          <input (change)="mudarImagem($event)" type="file" name="arquivoFoto" class="form-control" id="images" onchange="visualizarImages();" value="" single/>
+                          <input (change)="mudarImagem($event)" type="file" name="arquivoFoto" class="form-control" id="images" onchange="visualizarImages();" single/>
                           <div class="row" id="ver_imagem"></div>
                       </div>
                     </div>

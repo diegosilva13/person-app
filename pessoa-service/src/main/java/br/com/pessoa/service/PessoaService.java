@@ -53,7 +53,7 @@ public class PessoaService extends BaseService{
 		
 		pessoa = repository.save(pessoa);
 		
-		if(pessoaDTO.getFoto() != null && pessoa.getFoto().equals(pessoaDTO.getFoto())){
+		if(pessoaDTO.getFoto() != null && !pessoa.getFoto().equals(pessoaDTO.getFoto())){
 			arquivoUtil.apagar(pessoa.getFoto());
 			pessoa.setFoto(arquivoUtil.copiarParaPastaDefinitiva(pessoaDTO.getFoto()));
 		}
@@ -79,5 +79,14 @@ public class PessoaService extends BaseService{
 
 	public void excluir(Integer id) {
 		repository.delete(id);
+	}
+
+	public PessoaDTO buscarPorId(Integer id) {
+		Pessoa pessoa = repository.findOne(id);
+		if(pessoa != null){
+			return new PessoaDTO(pessoa);	
+		}
+		
+		return null;
 	}
 }

@@ -21,6 +21,21 @@ export class PessoaService {
             .map((response: Response) => response.json());
     }
 
+
+    atualizar(id: any, pessoa: any) {
+      let url = 'http://localhost:8080/api/pessoas/'+id;
+        let headers = new Headers({
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+        });
+
+        let data = pessoa.dataNascimento.split("-");
+        pessoa.dataNascimento = data[2]+'/'+data[1]+'/'+data[0];
+
+        return this.http.post(url, JSON.stringify(pessoa), new RequestOptions({headers: headers}))
+            .map((response: Response) => response.json());
+    }
+
     uploadFoto(arquivo: any){
       let url = 'http://localhost:8080/api/pessoas/upload';
         let headers = new Headers({
@@ -34,6 +49,17 @@ export class PessoaService {
 
     buscarTodos(){
        let url = 'http://localhost:8080/api/pessoas';
+        let headers = new Headers({
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+        });
+
+        return this.http.get(url, new RequestOptions({headers: headers}))
+            .map((response: Response) => response.json());     
+    }
+
+    buscarPorId(id: any){
+       let url = 'http://localhost:8080/api/pessoas/'+id;
         let headers = new Headers({
             'Content-type': 'application/json',
             'Accept': 'application/json'

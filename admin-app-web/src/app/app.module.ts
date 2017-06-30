@@ -6,11 +6,21 @@ import {FormsModule} from "@angular/forms";
 import {BaseRequestOptions, HttpModule} from "@angular/http";
 import {routing} from "./app.routing";
 import {APP_BASE_HREF} from "@angular/common";
-import {ListPessoasComponent, CreatePessoasComponent} from "./pessoas/index";
+import {
+  ListPessoasComponent, 
+  CreatePessoasComponent, 
+  EditPessoasComponent
+  } from "./pessoas/index";
 import {NavBarComponent, AlertComponent} from "./_directives/index";
 import {AlertService, PessoaService} from "./_services/index";
 import {HtmlUtil} from "app/_utils/index";
-import {DataFilterPipe} from "app/_pipes/index";
+import {
+  FiltroPeloNascPipe, 
+  FiltroPeloCPFPipe, 
+  FiltroPeloNomeEmail,
+  FiltroPeloNomePipe,
+  CPFPipe 
+  } from "app/_pipes/index";
 import {DataTableModule} from "angular2-datatable";
 
 @NgModule({
@@ -18,9 +28,14 @@ import {DataTableModule} from "angular2-datatable";
     AppComponent,
     ListPessoasComponent,
     CreatePessoasComponent,
+    EditPessoasComponent,
     NavBarComponent,
     AlertComponent,
-    DataFilterPipe
+    FiltroPeloNascPipe, 
+    FiltroPeloCPFPipe, 
+    FiltroPeloNomeEmail,
+    FiltroPeloNomePipe,
+    CPFPipe
   ],
     imports: [
       BrowserModule,

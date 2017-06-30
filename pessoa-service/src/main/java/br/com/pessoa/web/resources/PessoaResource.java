@@ -2,6 +2,7 @@ package br.com.pessoa.web.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,6 +45,25 @@ public class PessoaResource {
 		}
 		return dto;
 	}
+	
+	@RequestMapping(value = "/pessoas/{id}", method = RequestMethod.POST, 
+			consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public RespostaDTO atualizar(@RequestBody PessoaDTO pessoaDTO, @PathVariable Integer id) {
+		RespostaDTO dto = new RespostaDTO();
+		try {
+			dto.comObjetoDeResposta((service.atualizar(id, pessoaDTO)));
+			dto.comAMensagem("Sucesso.").comCodigo200OK();
+		} catch (DadoInvalidoException e) {
+			e.printStackTrace();
+			dto.comAMensagem(e.getMessage()).comCodigo400();
+		} catch (Exception e) {
+			e.printStackTrace();
+			dto.comAMensagem(e.getMessage()).comCodigo500();
+		}
+		return dto;
+	}
 
 	@RequestMapping(value = "/pessoas", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -76,9 +96,11 @@ public class PessoaResource {
 		return dto;
 	}
 
-	@RequestMapping(value = "pessoas/upload", headers = "Content-Type= multipart/form-data", 
+	@RequestMapping(value = "pessoas/upload", 
+			headers = "Content-Type= multipart/form-data", 
 			method = RequestMethod.POST, 
-			consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+			consumes = MediaType.MULTIPART_FORM_DATA_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public RespostaDTO uploadFile(@RequestParam("arquivo") MultipartFile arquivo) {
 		RespostaDTO dto = new RespostaDTO();
@@ -87,6 +109,25 @@ public class PessoaResource {
 			service.validaTamanhoFotoPerfil(arquivo.getBytes());
 			dto.comObjetoDeResposta(
 					arquivoUtil.salvar(arquivo.getOriginalFilename(), arquivo.getBytes(), TipoDiretorio.TEMPORARIO));
+			dto.comAMensagem("Sucesso.").comCodigo200OK();
+		} catch (DadoInvalidoException e) {
+			e.printStackTrace();
+			dto.comAMensagem(e.getMessage()).comCodigo400();
+		} catch (Exception e) {
+			e.printStackTrace();
+			dto.comAMensagem(e.getMessage()).comCodigo500();
+		}
+		return dto;
+	}
+	
+	@RequestMapping(value = "pessoas/{id}", 
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public RespostaDTO buscarPorId(@PathVariable Integer id) {
+		RespostaDTO dto = new RespostaDTO();
+		try {
+			dto.comObjetoDeResposta(service.buscarPorId(id));
 			dto.comAMensagem("Sucesso.").comCodigo200OK();
 		} catch (DadoInvalidoException e) {
 			e.printStackTrace();
